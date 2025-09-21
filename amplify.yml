@@ -10,7 +10,7 @@ frontend:
       commands:
         - npm run build
   artifacts:
-    baseDirectory: dist        # Vite gera "dist" com index.html
+    baseDirectory: build        # Vite gera "dist" com index.html
     files:
       - '**/*'
   cache:
