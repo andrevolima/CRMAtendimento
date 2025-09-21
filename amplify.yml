@@ -7,29 +7,19 @@ applications:
           commands:
             - node -v
             - npm ci
-            # Opcional: falha se faltar env crítico
-            - node -e 'const req=["VITE_API_URL"]; const miss=req.filter(k=>!process.env[k]); if(miss.length){console.error("Missing env:",miss); process.exit(1)}'
+            # Falha se faltar env obrigatória
+            - node -e 'const r=["VITE_API_URL"];const m=r.filter(k=>!process.env[k]);if(m.length){console.error("Missing env:",m);process.exit(1)}'
         build:
           commands:
-            # ajuste conforme seu bundler
             - npm run build
       artifacts:
-        # Vite -> dist | CRA -> build | Next (static export) -> out/.next
-        baseDirectory: dist
+        baseDirectory: dist      # Vite gera "dist"
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*
-    # Regras de SPA: envia tudo para index.html
-    customHeaders:
-      - pattern: '**/*'
-        headers:
-          - key: 'Cache-Control'
-            value: 'public, max-age=300'
-          - key: 'X-Frame-Options'
-            value: 'SAMEORIGIN'
     rewrites:
       - source: </^[^.]+$|\\.(?!(css|js|png|jpg|svg|gif|ico|txt)$)([^.]+$)/>
-        target: /index.html
+        target: /src/pages/Login/index.js
         status: 200
