@@ -3,19 +3,18 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install
-        - node -e 'const req=["VITE_API_URL"];const miss=req.filter(k=>!process.env[k]);if(miss.length){console.error("Missing env:",miss);process.exit(1)}'
+        - npm ci
     build:
       commands:
         - npm run build
   artifacts:
-    baseDirectory: build      
+    baseDirectory: build    # CRA usa build
     files:
       - '**/*'
   cache:
     paths:
       - node_modules/**/*
   rewrites:
-    - source: </^[^.]+$|\\.(?!(css|js|png|jpg|svg|gif|ico|txt)$)([^.]+$)/>
+    - source: </^[^.]+$|\.(?!(css|js|png|jpg|svg|gif|ico|txt)$)([^.]+$)/>
       target: /index.html
       status: 200
