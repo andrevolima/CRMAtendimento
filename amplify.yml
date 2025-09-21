@@ -5,15 +5,14 @@ applications:
       phases:
         preBuild:
           commands:
-            - node -v
             - npm ci
-            # Falha se faltar env obrigatória
-            - node -e 'const r=["VITE_API_URL"];const m=r.filter(k=>!process.env[k]);if(m.length){console.error("Missing env:",m);process.exit(1)}'
+            # opcional: garanta que a env exista (troque se usar outra)
+            - node -e 'const req=["REACT_APP_API_URL"]; const miss=req.filter(k=>!process.env[k]); if(miss.length){console.error("Missing env:",miss); process.exit(1)}'
         build:
           commands:
             - npm run build
       artifacts:
-        baseDirectory: dist      # Vite gera "dist"
+        baseDirectory: build     # CRA gera "build"
         files:
           - '**/*'
       cache:
@@ -21,5 +20,5 @@ applications:
           - node_modules/**/*
     rewrites:
       - source: </^[^.]+$|\\.(?!(css|js|png|jpg|svg|gif|ico|txt)$)([^.]+$)/>
-        target: /src/pages/Login/index.js
+        target: /index.html
         status: 200
