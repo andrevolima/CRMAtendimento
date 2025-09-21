@@ -3,7 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - npm install
         # opcional: falha se faltar uma env pública
         - node -e 'const req=["VITE_API_URL"];const miss=req.filter(k=>!process.env[k]);if(miss.length){console.error("Missing env:",miss);process.exit(1)}'
     build:
