@@ -1,24 +1,22 @@
 version: 1
-applications:
-  - appRoot: frontend
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - npm ci
-            # opcional: garanta que a env exista (troque se usar outra)
-            - node -e 'const req=["REACT_APP_API_URL"]; const miss=req.filter(k=>!process.env[k]); if(miss.length){console.error("Missing env:",miss); process.exit(1)}'
-        build:
-          commands:
-            - npm run build
-      artifacts:
-        baseDirectory: build     # CRA gera "build"
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-    rewrites:
-      - source: </^[^.]+$|\\.(?!(css|js|png|jpg|svg|gif|ico|txt)$)([^.]+$)/>
-        target: /index.html
-        status: 200
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+        # opcional: falha se faltar uma env pública
+        - node -e 'const req=["VITE_API_URL"];const miss=req.filter(k=>!process.env[k]);if(miss.length){console.error("Missing env:",miss);process.exit(1)}'
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: dist        # Vite gera "dist" com index.html
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+  rewrites:
+    - source: </^[^.]+$|\\.(?!(css|js|png|jpg|svg|gif|ico|txt)$)([^.]+$)/>
+      target: /index.html
+      status: 200
