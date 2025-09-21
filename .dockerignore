@@ -1,6 +1,12 @@
-.git
-*Dockerfile*
-*docker-compose*
 node_modules
-dist
-.wwebjs_auth
+npm-debug.log
+.git
+.gitignore
+Dockerfile*
+.dockerignore
+src/__tests__/
+**/*.spec.ts
+**/*.test.ts
+**/__mocks__/**
+coverage
+.env
